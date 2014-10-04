@@ -9,6 +9,7 @@
 #include <string>
 #include <iostream>
 using namespace std;
+//// je calis de la marde dans le fichier
 
 const int Othello::TAILLE_GRILLE_DEFAUT = 8;
 
