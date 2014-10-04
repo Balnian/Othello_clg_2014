@@ -11,7 +11,7 @@
 using namespace std;
 
 const int Othello::TAILLE_GRILLE_DEFAUT = 8;
-
+//Ici il y avait un roux!!!
 Othello::Othello() :nbJetonsBlanc_(2),nbJetonsNoir_(2)
 { 
 	m_.SetNbLignes(TAILLE_GRILLE_DEFAUT);
