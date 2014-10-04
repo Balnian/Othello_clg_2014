@@ -149,7 +149,7 @@ bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 		{
 			if (m_[i][y] == Othello::Vide &&  m_[i][y])
 			{
-
+				//test
 			}
 		}
 	}
