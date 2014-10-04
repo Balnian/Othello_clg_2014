@@ -9,7 +9,7 @@
 #include <string>
 #include <iostream>
 using namespace std;
-//YOLO swaggg biere
+
 const int Othello::TAILLE_GRILLE_DEFAUT = 8;
 
 Othello::Othello() :nbJetonsBlanc_(2),nbJetonsNoir_(2)
