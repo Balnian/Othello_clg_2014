@@ -115,16 +115,147 @@ void Othello::Jouer(Othello::Jetons jeton, int ligne, int colonne) throw(excepti
 
 	// À ce stade, on sait que la position est jouable donc on met le jeton à cette position
 
-
 	// puis on inverse les jetons entre cette position et toutes celles où il y a un 
 	// autre jeton de cette couleur et des voisines d'une couleur opposée
+	InverserJetons(jeton, ligne, colonne);
 
 }
 
 bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) const
 {
 	// clairement à modifier ;-)
-	return true;
+	if (m_[ligne][colonne] == Vide)
+	{
+		//Vérifie le jeton a droite
+		if (m_[ligne][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = colonne + 1; r < m_.GetNbColonnes(); r++)
+			{
+				if (m_[ligne][r] == jeton)
+				{
+					return true;
+				}
+				if (m_[ligne][r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton a gauche
+		if (m_[ligne][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = colonne - 1; r >= 0; r--)
+			{
+				if (m_[ligne][r] == jeton)
+				{
+					return true;
+				}
+				if (m_[ligne][r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton du haut
+		if (m_[(ligne == 0) ? ligne : ligne - 1][colonne] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = ligne - 1; r >= 0; r--)
+			{
+				if (m_[r][colonne] == jeton)
+				{
+					return true;
+				}
+				if (m_[r][colonne] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton du bas
+		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][colonne] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = ligne + 1; r < m_.GetNbLignes(); r++)
+			{
+				if (m_[r][colonne] == jeton)
+				{
+					return true;
+				}
+				if (m_[r][colonne] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale haut droite
+		if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne - r >= 0 && colonne + r<m_.GetNbColonnes(); r++)
+			{
+				if (m_[ligne - r][colonne + r] == jeton)
+				{
+					return true;
+				}
+				if (m_[ligne - r][colonne + r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale haut gauche
+		if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne - r >= 0 && colonne - r >= 0; r++)
+			{
+				if (m_[ligne - r][colonne - r] == jeton)
+				{
+					return true;
+				}
+				if (m_[ligne - r][colonne - r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale bas gauche
+		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne - r >= 0; r++)
+			{
+				if (m_[ligne + r][colonne - r] == jeton)
+				{
+					return true;
+				}
+				if (m_[ligne + r][colonne - r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale bas droite
+		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne + r<m_.GetNbColonnes(); r++)
+			{
+				if (m_[ligne + r][colonne + r] == jeton)
+				{
+					return true;
+				}
+				if (m_[ligne + r][colonne + r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+	}
+	return false;
 }
 
 // indique si la partie est finie
@@ -281,6 +412,165 @@ bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 		}
 	}
 	return false;
+}
+
+void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
+{
+	if (m_[ligne][colonne] == Vide)
+	{
+		//Vérifie le jeton a droite
+		if (m_[ligne][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = colonne + 1; r < m_.GetNbColonnes(); r++)
+			{
+				if (m_[ligne][r] == jeton)
+				{
+					for (int z = colonne; z < r; z++)
+					{
+						m_[ligne][z] = jeton;
+					}
+				}
+				if (m_[ligne][r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton a gauche
+		if (m_[ligne][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = colonne - 1; r >= 0; r--)
+			{
+				if (m_[ligne][r] == jeton)
+				{
+					for (int z = colonne; z >r; z--)
+					{
+						m_[ligne][z] = jeton;
+					}
+				}
+				if (m_[ligne][r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton du haut
+		if (m_[(ligne == 0) ? ligne : ligne - 1][colonne] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = ligne - 1; r >= 0; r--)
+			{
+				if (m_[r][colonne] == jeton)
+				{
+					for (int z = ligne; z >r; z--)
+					{
+						m_[z][colonne] = jeton;
+					}
+				}
+				if (m_[r][colonne] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton du bas
+		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][colonne] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = ligne + 1; r < m_.GetNbLignes(); r++)
+			{
+				if (m_[r][colonne] == jeton)
+				{
+					for (int z = ligne; z < r; z++)
+					{
+						m_[z][colonne] = jeton;
+					}
+				}
+				if (m_[r][colonne] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale haut droite
+		if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne - r >= 0 && colonne + r<m_.GetNbColonnes(); r++)
+			{
+				if (m_[ligne - r][colonne + r] == jeton)
+				{
+					for (int z = 0; z < r; z++)
+					{
+						m_[ligne - z][colonne + z] = jeton;
+					}
+				}
+				if (m_[ligne - r][colonne + r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale haut gauche
+		if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne - r >= 0 && colonne - r >= 0; r++)
+			{
+				if (m_[ligne - r][colonne - r] == jeton)
+				{
+					for (int z = 0;  z < r; z++)
+					{
+						m_[ligne - z][colonne - z] = jeton;
+					}
+				}
+				if (m_[ligne - r][colonne - r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale bas gauche
+		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne - r >= 0; r++)
+			{
+				if (m_[ligne + r][colonne - r] == jeton)
+				{
+					for (int z = 0; z < r; z++)
+					{
+						m_[ligne + z][colonne - z] = jeton;
+					}
+				}
+				if (m_[ligne + r][colonne - r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+		//vérifie le jeton en diagonale bas droite
+		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+		{
+			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne + r<m_.GetNbColonnes(); r++)
+			{
+				if (m_[ligne + r][colonne + r] == jeton)
+				{
+					for (int z = 0; z<r; z++)
+					{
+						m_[ligne + z][colonne + z] = jeton;
+					}
+				}
+				if (m_[ligne + r][colonne + r] == Vide)
+				{
+					break;
+				}
+			}
+		}
+
+	}
 }
 
 

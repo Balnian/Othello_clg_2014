@@ -22,6 +22,9 @@ private:
 	Matrice <Jetons> m_;
 	int nbJetonsBlanc_;
 	int nbJetonsNoir_;
+	
+	// inverse les jetons par rapport à la position jouer
+	void InverserJetons(Othello::Jetons jeton, int ligne, int colonne);
 
 	//--- requise pour la méthode publique Jouer
 	bool   EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) const;
