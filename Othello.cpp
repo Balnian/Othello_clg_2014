@@ -9,11 +9,11 @@
 #include <string>
 #include <iostream>
 using namespace std;
-//// je calis de la marde dans le fichier
+
 
 const int Othello::TAILLE_GRILLE_DEFAUT = 8;
-//Ici il y avait un roux!!!
-.......
+
+
 Othello::Othello() :nbJetonsBlanc_(2),nbJetonsNoir_(2)
 { 
 	m_.SetNbLignes(TAILLE_GRILLE_DEFAUT);
@@ -145,9 +145,9 @@ Othello::Jetons Othello::DeterminerGagnant() const
 bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 {
 	// clairement à modifier ;-)
-	for (size_t i = 0; i < m_.GetNbLignes; i++)
+	for (size_t i = 0; i < m_.GetNbLignes(); i++)
 	{
-		for (size_t y = 0; y < m_.GetNbColonnes-1; y++)
+		for (size_t y = 0; y < m_.GetNbColonnes()-1; y++)
 		{
 			if (m_[i][y] == Othello::Vide &&  m_[i][y])
 			{
