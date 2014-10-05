@@ -23,9 +23,10 @@ private:
 	int nbJetonsBlanc_;
 	int nbJetonsNoir_;
 	
+	//calcul du nombre de jetons de chaque couleur
+	void CalculDuNbDeJeton();
 	// inverse les jetons par rapport à la position jouer
 	void InverserJetons(Othello::Jetons jeton, int ligne, int colonne);
-
 	//--- requise pour la méthode publique Jouer
 	bool   EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) const;
 

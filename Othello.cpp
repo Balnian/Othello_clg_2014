@@ -9,17 +9,14 @@
 #include <string>
 #include <iostream>
 using namespace std;
-<<<<<<< HEAD
 
 
-const int Othello::TAILLE_GRILLE_DEFAUT = 8;
+
+const int Othello::TAILLE_GRILLE_DEFAUT = 4;
 
 
-=======
 
-const int Othello::TAILLE_GRILLE_DEFAUT = 8;
 
->>>>>>> d18b7a699cca8dbe4e46ae9ec29b2b772fd23938
 Othello::Othello() :nbJetonsBlanc_(2),nbJetonsNoir_(2)
 { 
 	m_.SetNbLignes(TAILLE_GRILLE_DEFAUT);
@@ -113,6 +110,8 @@ void Othello::Jouer(Othello::Jetons jeton, int ligne, int colonne) throw(excepti
 {
 	// Vérifier si la position jouée est déjà occupée par un autre jeton; si elle
 	// est occupée =>> exception
+	if (m_[ligne][colonne] != Othello::Vide)
+		throw exception("cette Position est deja occupee");
 
 
 	// Vérifier que la position disponible est 'jouable', c'est à dire qu'on 
@@ -131,7 +130,8 @@ void Othello::Jouer(Othello::Jetons jeton, int ligne, int colonne) throw(excepti
 
 bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) const
 {
-	// clairement à modifier ;-)
+	
+
 	if (m_[ligne][colonne] == Vide)
 	{
 		//Vérifie le jeton a droite
@@ -139,14 +139,9 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = colonne + 1; r < m_.GetNbColonnes(); r++)
 			{
-				if (m_[ligne][r] == jeton)
-				{
+				if (m_[ligne][r] == jeton)				
 					return true;
-				}
-				if (m_[ligne][r] == Vide)
-				{
-					break;
-				}
+							
 			}
 		}
 
@@ -155,14 +150,8 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = colonne - 1; r >= 0; r--)
 			{
-				if (m_[ligne][r] == jeton)
-				{
-					return true;
-				}
-				if (m_[ligne][r] == Vide)
-				{
-					break;
-				}
+				if (m_[ligne][r] == jeton)				
+					return true;				
 			}
 		}
 
@@ -171,14 +160,8 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = ligne - 1; r >= 0; r--)
 			{
-				if (m_[r][colonne] == jeton)
-				{
+				if (m_[r][colonne] == jeton)				
 					return true;
-				}
-				if (m_[r][colonne] == Vide)
-				{
-					break;
-				}
 			}
 		}
 
@@ -187,14 +170,10 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = ligne + 1; r < m_.GetNbLignes(); r++)
 			{
-				if (m_[r][colonne] == jeton)
-				{
-					return true;
-				}
-				if (m_[r][colonne] == Vide)
-				{
-					break;
-				}
+				if (m_[r][colonne] == jeton)				
+		     		return true;
+				
+			
 			}
 		}
 
@@ -203,14 +182,10 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = 1; ligne - r >= 0 && colonne + r<m_.GetNbColonnes(); r++)
 			{
-				if (m_[ligne - r][colonne + r] == jeton)
-				{
-					return true;
-				}
-				if (m_[ligne - r][colonne + r] == Vide)
-				{
-					break;
-				}
+				if (m_[ligne - r][colonne + r] == jeton)				
+					 return true;
+				
+				
 			}
 		}
 
@@ -219,14 +194,8 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = 1; ligne - r >= 0 && colonne - r >= 0; r++)
 			{
-				if (m_[ligne - r][colonne - r] == jeton)
-				{
-					return true;
-				}
-				if (m_[ligne - r][colonne - r] == Vide)
-				{
-					break;
-				}
+				if (m_[ligne - r][colonne - r] == jeton)				
+					 return true;			
 			}
 		}
 
@@ -235,14 +204,8 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne - r >= 0; r++)
 			{
-				if (m_[ligne + r][colonne - r] == jeton)
-				{
-					return true;
-				}
-				if (m_[ligne + r][colonne - r] == Vide)
-				{
-					break;
-				}
+				if (m_[ligne + r][colonne - r] == jeton)				
+					return true;			
 			}
 		}
 
@@ -251,181 +214,186 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 		{
 			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne + r<m_.GetNbColonnes(); r++)
 			{
-				if (m_[ligne + r][colonne + r] == jeton)
-				{
+				if (m_[ligne + r][colonne + r] == jeton)				
 					return true;
-				}
-				if (m_[ligne + r][colonne + r] == Vide)
-				{
-					break;
-				}
+				
+				
 			}
 		}
 
 	}
 	return false;
-}
 
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//test de fred
+
+
+//bool jouable = false;
+//
+//
+//for (size_t i = 0; i< m_.GetNbLignes(); i++)
+//	{
+//		for (size_t j =0; j < m_.GetNbColonnes(); i++)
+//		{
+//			if (ligne + 1 < m_.GetNbLignes() - 1 && colonne + 1 < m_.GetNbColonnes() - 1)
+//			{
+//
+//
+//				/*if (m_[ligne][colonne + 1] != jeton && m_[ligne][colonne + 1] != Vide)
+//					jouable = true;*/
+//
+//				//bas
+//				/*if (m_[ligne - 1][colonne] != jeton && m_[ligne + 1][colonne] != Vide)
+//					jouable = true;*/
+//
+//
+//				if (m_[ligne][colonne - 1] != jeton && m_[ligne][colonne - 1] != Vide)
+//					jouable = true;
+//			}
+//		}
+//	}
+//
+// 
+//  
+//return jouable;
+
+}
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // indique si la partie est finie
 bool Othello::EstFini() const
 {
-	// clairement à modifier ;-)
-	return false;  
-}
+	bool fin = true;
 
+	for (size_t i = 0; i < m_.GetNbLignes(); i++)		
+	{
+		for (size_t j = 0; j < m_.GetNbColonnes(); j++)
+		{
+			if (m_[i][j] == Vide)
+			   fin = false;
+		}
+	}
+	 
+	return fin;  
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Othello::Jetons Othello::DeterminerGagnant() const
 {
-	// clairement à modifier ;-)
-	return Othello::Vide;
+
+	return nbJetonsBlanc_ > nbJetonsNoir_ ? Othello::Blanc : Othello::Noir;
 }
 
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 {
 	// clairement à modifier ;-)
-<<<<<<< HEAD
-	for (size_t i = 0; i < m_.GetNbLignes(); i++)
-	{
-		for (size_t y = 0; y < m_.GetNbColonnes()-1; y++)
-=======
-	for (int i = 0; i < m_.GetNbLignes(); i++)
-	{
-		for (int y = 0; y < m_.GetNbColonnes(); y++)
->>>>>>> d18b7a699cca8dbe4e46ae9ec29b2b772fd23938
+
+
+		for (int i = 0; i < m_.GetNbLignes(); i++)
 		{
-			if (m_[i][y] == Vide )
+			for (int y = 0; y < m_.GetNbColonnes(); y++)
+
 			{
-				//Vérifie le jeton a droite
-				if (m_[i][(y == m_.GetNbColonnes()-1)? y:y+1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
+				if (m_[i][y] == Vide)
 				{
-					for (int r = y+1; r < m_.GetNbColonnes(); r++)
+					//Vérifie le jeton a droite
+					if (m_[i][(y == m_.GetNbColonnes() - 1) ? y : y + 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[i][r]==jetonQuiJoue)
+						for (int r = y + 1; r < m_.GetNbColonnes(); r++)
 						{
-							return true;
-						}
-						if (m_[i][r] == Vide)
-						{
-							break;
+							if (m_[i][r] == jetonQuiJoue)
+							   return true;
+														
 						}
 					}
-				}
 
-				//vérifie le jeton a gauche
-				if (m_[i][(y == 0) ? y : y - 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = y - 1; r >= 0; r--)
+					//vérifie le jeton a gauche
+					if (m_[i][(y == 0) ? y : y - 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[i][r] == jetonQuiJoue)
+						for (int r = y - 1; r >= 0; r--)
 						{
-							return true;
-						}
-						if (m_[i][r] == Vide)
-						{
-							break;
+							if (m_[i][r] == jetonQuiJoue)							
+							  return true;														
 						}
 					}
-				}
 
-				//vérifie le jeton du haut
-				if (m_[(i == 0)? i:i-1][y] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = i - 1; r >= 0; r--)
+					//vérifie le jeton du haut
+					if (m_[(i == 0) ? i : i - 1][y] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[r][y] == jetonQuiJoue)
+						for (int r = i - 1; r >= 0; r--)
 						{
-							return true;
-						}
-						if (m_[r][y] == Vide)
-						{
-							break;
+							if (m_[r][y] == jetonQuiJoue)
+								return true;
+							
+						
 						}
 					}
-				}
 
-				//vérifie le jeton du bas
-				if (m_[(i == m_.GetNbLignes()-1) ? i : i + 1][y] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = i + 1; r < m_.GetNbLignes(); r++)
+					//vérifie le jeton du bas
+					if (m_[(i == m_.GetNbLignes() - 1) ? i : i + 1][y] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[r][y] == jetonQuiJoue)
+						for (int r = i + 1; r < m_.GetNbLignes(); r++)
 						{
-							return true;
-						}
-						if (m_[r][y] == Vide)
-						{
-							break;
+							if (m_[r][y] == jetonQuiJoue)							
+							   return true;
+							
+							
 						}
 					}
-				}
 
-				//vérifie le jeton en diagonale haut droite
-				if (m_[(i == 0) ? i : i - 1][(y == m_.GetNbColonnes() - 1) ? y : y + 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = 1; i-r >= 0 && y+r<m_.GetNbColonnes(); r++)
+					//vérifie le jeton en diagonale haut droite
+					if (m_[(i == 0) ? i : i - 1][(y == m_.GetNbColonnes() - 1) ? y : y + 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[i-r][y+r] == jetonQuiJoue)
+						for (int r = 1; i - r >= 0 && y + r < m_.GetNbColonnes(); r++)
 						{
-							return true;
-						}
-						if (m_[i - r][y + r] == Vide)
-						{
-							break;
+							if (m_[i - r][y + r] == jetonQuiJoue)
+								return true;
+							
+							
 						}
 					}
-				}
 
-				//vérifie le jeton en diagonale haut gauche
-				if (m_[(i == 0) ? i : i - 1][(y == 0) ? y : y - 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = 1; i - r >= 0 && y - r >= 0; r++)
+					//vérifie le jeton en diagonale haut gauche
+					if (m_[(i == 0) ? i : i - 1][(y == 0) ? y : y - 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[i - r][y - r] == jetonQuiJoue)
+						for (int r = 1; i - r >= 0 && y - r >= 0; r++)
 						{
-							return true;
-						}
-						if (m_[i - r][y - r] == Vide)
-						{
-							break;
+							if (m_[i - r][y - r] == jetonQuiJoue)							
+								return true;
+							
+							
 						}
 					}
-				}
 
-				//vérifie le jeton en diagonale bas gauche
-				if (m_[(i == m_.GetNbLignes()-1) ? i : i + 1][(y == 0) ? y : y - 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = 1; i + r <m_.GetNbLignes() && y - r >= 0; r++)
+					//vérifie le jeton en diagonale bas gauche
+					if (m_[(i == m_.GetNbLignes() - 1) ? i : i + 1][(y == 0) ? y : y - 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[i + r][y - r] == jetonQuiJoue)
+						for (int r = 1; i + r < m_.GetNbLignes() && y - r >= 0; r++)
 						{
-							return true;
-						}
-						if (m_[i + r][y - r] == Vide)
-						{
-							break;
+							if (m_[i + r][y - r] == jetonQuiJoue)							
+								return true;
+							
+							
 						}
 					}
-				}
 
-				//vérifie le jeton en diagonale bas droite
-				if (m_[(i == m_.GetNbLignes() - 1) ? i : i + 1][(y == m_.GetNbColonnes() - 1) ? y : y + 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
-				{
-					for (int r = 1; i + r <m_.GetNbLignes() && y + r<m_.GetNbColonnes(); r++)
+					//vérifie le jeton en diagonale bas droite
+					if (m_[(i == m_.GetNbLignes() - 1) ? i : i + 1][(y == m_.GetNbColonnes() - 1) ? y : y + 1] == (jetonQuiJoue == Noir) ? Blanc : Noir)
 					{
-						if (m_[i + r][y + r] == jetonQuiJoue)
+						for (int r = 1; i + r < m_.GetNbLignes() && y + r < m_.GetNbColonnes(); r++)
 						{
-							return true;
-						}
-						if (m_[i + r][y + r] == Vide)
-						{
-							break;
+							if (m_[i + r][y + r] == jetonQuiJoue)							
+								return true;
+							
+							
 						}
 					}
-				}
 
+				}
 			}
 		}
-	}
-	return false;
+		return false;
+
 }
 
 void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
@@ -442,12 +410,9 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = colonne; z < r; z++)
 					{
 						m_[ligne][z] = jeton;
+						
 					}
-				}
-				if (m_[ligne][r] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
@@ -461,12 +426,9 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = colonne; z >r; z--)
 					{
 						m_[ligne][z] = jeton;
+						
 					}
-				}
-				if (m_[ligne][r] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
@@ -480,12 +442,9 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = ligne; z >r; z--)
 					{
 						m_[z][colonne] = jeton;
+						
 					}
-				}
-				if (m_[r][colonne] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
@@ -499,12 +458,9 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = ligne; z < r; z++)
 					{
 						m_[z][colonne] = jeton;
+						
 					}
-				}
-				if (m_[r][colonne] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
@@ -518,12 +474,9 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = 0; z < r; z++)
 					{
 						m_[ligne - z][colonne + z] = jeton;
+						
 					}
-				}
-				if (m_[ligne - r][colonne + r] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
@@ -537,11 +490,8 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = 0;  z < r; z++)
 					{
 						m_[ligne - z][colonne - z] = jeton;
+						
 					}
-				}
-				if (m_[ligne - r][colonne - r] == Vide)
-				{
-					break;
 				}
 			}
 		}
@@ -556,12 +506,9 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = 0; z < r; z++)
 					{
 						m_[ligne + z][colonne - z] = jeton;
+						
 					}
-				}
-				if (m_[ligne + r][colonne - r] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
@@ -575,19 +522,41 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 					for (int z = 0; z<r; z++)
 					{
 						m_[ligne + z][colonne + z] = jeton;
+						
 					}
-				}
-				if (m_[ligne + r][colonne + r] == Vide)
-				{
-					break;
-				}
+				}				
 			}
 		}
 
 	}
+	CalculDuNbDeJeton();
+
+}
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+void Othello::CalculDuNbDeJeton()
+{
+
+	nbJetonsBlanc_ = 0;
+	nbJetonsNoir_ = 0;
+
+	for (size_t i = 0; i < m_.GetNbLignes(); i++)
+	{
+		for (size_t j = 0; j < m_.GetNbColonnes(); j++)
+		{
+			if (m_[i][j] == Othello::Noir)		
+				nbJetonsNoir_++;
+			
+
+			if (m_[i][j] == Othello::Blanc)
+
+				nbJetonsBlanc_++;
+		}
+	}
+
+
 }
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ostream& operator << (ostream & out, const Othello & jeu)
 {
 	jeu.Afficher(out);
