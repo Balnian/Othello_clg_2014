@@ -18,7 +18,7 @@ void ConclurePartie(const Othello & jeu, ostream & out)
 
 	if (gagnant == Othello::Blanc)
 		message = "Les BLANCS ont gagne la partie";
-	else if (gagnant << Othello::Noir)
+	else if (gagnant == Othello::Noir)
 		message = "Les NOIRS ont gagne la partie";
 	else
 		message = "La partie est nulle !!";
