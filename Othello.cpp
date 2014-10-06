@@ -278,8 +278,7 @@ bool Othello::EstFini() const
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Othello::Jetons Othello::DeterminerGagnant() const
 {
-
-	return nbJetonsBlanc_ > nbJetonsNoir_ ? Othello::Blanc : Othello::Noir;
+	return (nbJetonsBlanc_ > nbJetonsNoir_) ? Othello::Blanc : (nbJetonsNoir_ > nbJetonsBlanc_) ? Othello::Noir:Othello::Vide;
 }
 
 
