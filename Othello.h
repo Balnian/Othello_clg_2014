@@ -23,6 +23,9 @@ private:
 	int nbJetonsBlanc_;
 	int nbJetonsNoir_;
 	
+   enum Orientation{Moins=-1,Zero=0,Plus=1};
+   //Vérifie la ligne selon l'orientation passé et retourne si la position est valide basé sur cette ligne
+   bool Verif(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y)const;
 	//calcul du nombre de jetons de chaque couleur
 	void CalculDuNbDeJeton();
 	// inverse les jetons par rapport à la position jouer
@@ -41,6 +44,7 @@ public:
 	bool EstFini() const;
 	void Jouer(Othello::Jetons jeton, int ligne, int colonne) throw(exception);
 	bool PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const;
+   
 };
 
 ostream& operator << (ostream & out, const Othello & jeu);
