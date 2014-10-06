@@ -24,8 +24,24 @@ private:
 	int nbJetonsNoir_;
 	
    enum Orientation{Moins=-1,Zero=0,Plus=1};
+   struct Point
+   {
+      Point(){};
+      Point(int x, int y) :X(x), Y(y){};
+      int X;
+      int Y;
+   };
+   struct PosValid
+   {
+      PosValid(){};
+      PosValid(bool valide, int x, int y) :Pos(x, y), Validiter(valide){};
+      Point Pos;
+      bool Validiter;
+   };
    //Vérifie la ligne selon l'orientation passé et retourne si la position est valide basé sur cette ligne
-   bool Verif(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y)const;
+   PosValid Verif(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y)const;
+   //Flip les jetons
+   void FlipLigne(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y);
 	//calcul du nombre de jetons de chaque couleur
 	void CalculDuNbDeJeton();
 	// inverse les jetons par rapport à la position jouer

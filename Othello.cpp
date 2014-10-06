@@ -136,45 +136,46 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
 
    //Vérifie le jeton a droite
    if (m_[ligne][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Plus, Othello::Zero);
+      verification |= Verif(jeton, ligne, colonne, Othello::Plus, Othello::Zero).Validiter;
    //vérifie le jeton a gauche
    if (m_[ligne][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Moins, Othello::Zero);
+      verification |= Verif(jeton, ligne, colonne, Othello::Moins, Othello::Zero).Validiter;
    //vérifie le jeton du haut
    if (m_[(ligne == 0) ? ligne : ligne - 1][colonne] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Zero, Othello::Moins);
+      verification |= Verif(jeton, ligne, colonne, Othello::Zero, Othello::Moins).Validiter;
    //vérifie le jeton du bas
    if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][colonne] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Zero, Othello::Plus);
+      verification |= Verif(jeton, ligne, colonne, Othello::Zero, Othello::Plus).Validiter;
    //vérifie le jeton en diagonale haut droite
    if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Plus, Othello::Moins);
+      verification |= Verif(jeton, ligne, colonne, Othello::Plus, Othello::Moins).Validiter;
    //vérifie le jeton en diagonale haut gauche
    if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Moins, Othello::Moins);
+      verification |= Verif(jeton, ligne, colonne, Othello::Moins, Othello::Moins).Validiter;
    //vérifie le jeton en diagonale bas gauche
    if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Moins, Othello::Plus);
+      verification |= Verif(jeton, ligne, colonne, Othello::Moins, Othello::Plus).Validiter;
    //vérifie le jeton en diagonale bas droite
    if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
-      verification |= Verif(jeton, ligne, colonne, Othello::Plus, Othello::Plus);
+      verification |= Verif(jeton, ligne, colonne, Othello::Plus, Othello::Plus).Validiter;
    return verification;
 
 
 
 }
-bool Othello::Verif(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y) const
+Othello::PosValid Othello::Verif(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y) const
 {
-   for (int r = 1; ligne + r <m_.GetNbLignes() && colonne + r<m_.GetNbColonnes(); r++)
+   for (int r = 1; ligne + (r*Y) <m_.GetNbLignes() && colonne + (r*X)<m_.GetNbColonnes() && ligne + (r*Y) >= 0 && colonne + (r*X)>=0; r++)
    {
       if (m_[ligne + (r*Y)][colonne + (r*X)] == jeton)
-         return true;
+         return PosValid(true, colonne + (r*X), ligne + (r*Y));
       if (m_[ligne + (r*Y)][colonne + (r*X)] == Vide)
-         return false;
+         return PosValid(false, colonne + (r*X), ligne + (r*Y));;
 
    }
 
 }
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // indique si la partie est finie
 bool Othello::EstFini() const
@@ -220,139 +221,48 @@ bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 
 void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 {
-	if (m_[ligne][colonne] == Vide)
-	{
-		//Vérifie le jeton a droite
-		if (m_[ligne][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = colonne + 1; r < m_.GetNbColonnes(); r++)
-			{
-				if (m_[ligne][r] == jeton)
-				{
-					for (int z = colonne; z < r; z++)
-					{
-						m_[ligne][z] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-		//vérifie le jeton a gauche
-		if (m_[ligne][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = colonne - 1; r >= 0; r--)
-			{
-				if (m_[ligne][r] == jeton)
-				{
-					for (int z = colonne; z >r; z--)
-					{
-						m_[ligne][z] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-		//vérifie le jeton du haut
-		if (m_[(ligne == 0) ? ligne : ligne - 1][colonne] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = ligne - 1; r >= 0; r--)
-			{
-				if (m_[r][colonne] == jeton)
-				{
-					for (int z = ligne; z >r; z--)
-					{
-						m_[z][colonne] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-		//vérifie le jeton du bas
-		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][colonne] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = ligne + 1; r < m_.GetNbLignes(); r++)
-			{
-				if (m_[r][colonne] == jeton)
-				{
-					for (int z = ligne; z < r; z++)
-					{
-						m_[z][colonne] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-		//vérifie le jeton en diagonale haut droite
-		if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = 1; ligne - r >= 0 && colonne + r<m_.GetNbColonnes(); r++)
-			{
-				if (m_[ligne - r][colonne + r] == jeton)
-				{
-					for (int z = 0; z < r; z++)
-					{
-						m_[ligne - z][colonne + z] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-		//vérifie le jeton en diagonale haut gauche
-		if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = 1; ligne - r >= 0 && colonne - r >= 0; r++)
-			{
-				if (m_[ligne - r][colonne - r] == jeton)
-				{
-					for (int z = 0;  z < r; z++)
-					{
-						m_[ligne - z][colonne - z] = jeton;
-						
-					}
-				}
-			}
-		}
-
-		//vérifie le jeton en diagonale bas gauche
-		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne - r >= 0; r++)
-			{
-				if (m_[ligne + r][colonne - r] == jeton)
-				{
-					for (int z = 0; z < r; z++)
-					{
-						m_[ligne + z][colonne - z] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-		//vérifie le jeton en diagonale bas droite
-		if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
-		{
-			for (int r = 1; ligne + r <m_.GetNbLignes() && colonne + r<m_.GetNbColonnes(); r++)
-			{
-				if (m_[ligne + r][colonne + r] == jeton)
-				{
-					for (int z = 0; z<r; z++)
-					{
-						m_[ligne + z][colonne + z] = jeton;
-						
-					}
-				}				
-			}
-		}
-
-	}
+   //Vérifie le jeton a droite
+   if (m_[ligne][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Plus, Othello::Zero);
+   //vérifie le jeton a gauche
+   if (m_[ligne][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Moins, Othello::Zero);
+   //vérifie le jeton du haut
+   if (m_[(ligne == 0) ? ligne : ligne - 1][colonne] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Zero, Othello::Moins);
+   //vérifie le jeton du bas
+   if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][colonne] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Zero, Othello::Plus);
+   //vérifie le jeton en diagonale haut droite
+   if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Plus, Othello::Moins);
+   //vérifie le jeton en diagonale haut gauche
+   if (m_[(ligne == 0) ? ligne : ligne - 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Moins, Othello::Moins);
+   //vérifie le jeton en diagonale bas gauche
+   if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == 0) ? colonne : colonne - 1] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Moins, Othello::Plus);
+   //vérifie le jeton en diagonale bas droite
+   if (m_[(ligne == m_.GetNbLignes() - 1) ? ligne : ligne + 1][(colonne == m_.GetNbColonnes() - 1) ? colonne : colonne + 1] == (jeton == Noir) ? Blanc : Noir)
+      FlipLigne(jeton, ligne, colonne, Othello::Plus, Othello::Plus);
 	CalculDuNbDeJeton();
 
+}
+void Othello::FlipLigne(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y)
+{
+   Othello::PosValid data;
+   if ((data = Verif(jeton, ligne, colonne, X, Y)).Validiter)
+   {
+      for (int r = 1; (Y<Zero) ? (ligne + (r*Y) < data.Pos.Y) :
+                                 (Y>Zero) ? (ligne + (r*Y) > data.Pos.Y) :
+                                             true 
+                    &&(X<Zero) ? (colonne + (r*X) < data.Pos.X) :
+                                 (X>Zero) ? (colonne + (r*X) > data.Pos.X) :
+                                             true; r++)
+      {     
+         m_[ligne + (r*Y)][colonne + (r*X)] = jeton;
+      }
+   }
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::CalculDuNbDeJeton()
