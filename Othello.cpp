@@ -3,7 +3,7 @@
 // Vous devez compléter cette déclaration et la définition de la classe
 //
 // par Pierre Prud'homme, 2014
-// complété par <nom des étudiants>, <date>
+// complété par <Francis Lemaire && Frédéric Paquette>, <2014-10-06>
 //------------------------------------------------------------------------------
 #include "Othello.h"
 #include <string>
@@ -170,9 +170,9 @@ Othello::PosValid Othello::Verif(Othello::Jetons jeton, int ligne, int colonne, 
       if (m_[ligne + (r*Y)][colonne + (r*X)] == jeton)
          return PosValid(true, colonne + (r*X), ligne + (r*Y));
       if (m_[ligne + (r*Y)][colonne + (r*X)] == Vide)
-         return PosValid(false, colonne + (r*X), ligne + (r*Y));;
-
+         return PosValid(false, colonne + (r*X), ligne + (r*Y));
    }
+   return PosValid(false, colonne, ligne);
 
 }
 
@@ -211,7 +211,8 @@ bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
       for (int y = 0; y < m_.GetNbColonnes(); y++)
 
       {
-         valide |= EstPositionJouable(jetonQuiJoue, i, y);
+		  if (m_[i][y]==Vide)
+			  valide |= EstPositionJouable(jetonQuiJoue, i, y);
       }
    }
 
@@ -253,11 +254,11 @@ void Othello::FlipLigne(Othello::Jetons jeton, int ligne, int colonne, Orientati
    Othello::PosValid data;
    if ((data = Verif(jeton, ligne, colonne, X, Y)).Validiter)
    {
-      for (int r = 1; (Y<Zero) ? (ligne + (r*Y) < data.Pos.Y) :
-                                 (Y>Zero) ? (ligne + (r*Y) > data.Pos.Y) :
+      for (int r = 0; (Y<Zero) ? (ligne + (r*Y) > data.Pos.Y) :
+                                 (Y>Zero) ? (ligne + (r*Y) < data.Pos.Y) :
                                              true 
-                    &&(X<Zero) ? (colonne + (r*X) < data.Pos.X) :
-                                 (X>Zero) ? (colonne + (r*X) > data.Pos.X) :
+                    &&(X<Zero) ? (colonne + (r*X) > data.Pos.X) :
+                                 (X>Zero) ? (colonne + (r*X) < data.Pos.X) :
                                              true; r++)
       {     
          m_[ligne + (r*Y)][colonne + (r*X)] = jeton;

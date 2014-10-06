@@ -3,7 +3,7 @@
 // Vous devez compléter cette déclaration et la définition de la classe
 //
 // par Pierre Prud'homme, 2014
-// complété par <nom des étudiants>, <date>
+// complété par <Francis Lemaire && Frédéric Paquette>, <2014-10-06>
 //------------------------------------------------------------------------------
 #ifndef _OTHELLO_H_
 #define _OTHELLO_H_
