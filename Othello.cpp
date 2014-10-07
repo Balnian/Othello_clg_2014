@@ -180,18 +180,7 @@ Othello::PosValid Othello::Verif(Othello::Jetons jeton, int ligne, int colonne, 
 // indique si la partie est finie
 bool Othello::EstFini() const
 {
-	bool fin = true;
-
-	for (size_t i = 0; i < m_.GetNbLignes(); i++)		
-	{
-		for (size_t j = 0; j < m_.GetNbColonnes(); j++)
-		{
-			if (m_[i][j] == Vide)
-			   fin = false;
-		}
-	}
-	 
-	return fin;  
+	return !PeutJouerSonCoup(Noir) && !PeutJouerSonCoup(Blanc);
 }
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Othello::Jetons Othello::DeterminerGagnant() const
