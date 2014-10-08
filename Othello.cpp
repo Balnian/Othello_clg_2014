@@ -12,9 +12,7 @@ using namespace std;
 
 
 
-const int Othello::TAILLE_GRILLE_DEFAUT = 4;
-
-
+const int Othello::TAILLE_GRILLE_DEFAUT = 8;
 
 
 Othello::Othello() :nbJetonsBlanc_(2),nbJetonsNoir_(2)
@@ -42,7 +40,7 @@ Othello::Othello() :nbJetonsBlanc_(2),nbJetonsNoir_(2)
 	m_.at(centreInf).at(centreSup) = Othello::Noir;
 	m_.at(centreSup).at(centreInf) = Othello::Noir;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::Afficher(ostream & output) const 
 {
 	int i, j;
@@ -80,7 +78,7 @@ void Othello::Afficher(ostream & output) const
 	output.width(24);
 	output << "Noirs : " << nbJetonsNoir_;
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::AfficherEnTete(ostream & output, int maxColonnes) const
 {
 	output << "  ";
@@ -91,7 +89,7 @@ void Othello::AfficherEnTete(ostream & output, int maxColonnes) const
 	}
 	output << endl;
 }
-
+///////////////////////////////////////////////////////////////////////////////////////////
 string Othello::DeterminerChaine(int i, int j) const
 {
 	string chaine;
@@ -105,9 +103,12 @@ string Othello::DeterminerChaine(int i, int j) const
 			chaine = " N |";
 	return chaine;
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::Jouer(Othello::Jetons jeton, int ligne, int colonne) throw(exception)
 {
+	 //verifie si la position passer est valide
+	if (!(ligne < m_.GetNbLignes() && colonne < m_.GetNbColonnes() && ligne >= 0 && colonne >= 0))
+		throw exception("position invalide");
 	// Vérifier si la position jouée est déjà occupée par un autre jeton; si elle
 	// est occupée =>> exception
 	if (m_[ligne][colonne] != Othello::Vide)
@@ -127,7 +128,7 @@ void Othello::Jouer(Othello::Jetons jeton, int ligne, int colonne) throw(excepti
 	InverserJetons(jeton, ligne, colonne);
 
 }
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) const
 {
 	
@@ -161,10 +162,11 @@ bool Othello::EstPositionJouable(Othello::Jetons jeton, int ligne, int colonne) 
    return verification;
 
 
-
 }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Othello::PosValid Othello::Verif(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y) const
 {
+	 //verifie la direction en fonction de loriantation passer en parametre
    for (int r = 1; ligne + (r*Y) <m_.GetNbLignes() && colonne + (r*X)<m_.GetNbColonnes() && ligne + (r*Y) >= 0 && colonne + (r*X)>=0; r++)
    {
       if (m_[ligne + (r*Y)][colonne + (r*X)] == jeton)
@@ -185,6 +187,7 @@ bool Othello::EstFini() const
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Othello::Jetons Othello::DeterminerGagnant() const
 {
+	//verifie quelle jetons en a le plus sur le board et le retourne si le nombre est == retourne vide
 	return (nbJetonsBlanc_ > nbJetonsNoir_) ? Othello::Blanc : (nbJetonsNoir_ > nbJetonsBlanc_) ? Othello::Noir:Othello::Vide;
 }
 
@@ -192,19 +195,17 @@ Othello::Jetons Othello::DeterminerGagnant() const
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 {
-	// clairement à modifier ;-)
+	//test toutes les cases vide et verifie si le jeton qui joue peut jouer son tour
    bool valide = false;
 
    for (int i = 0; i < m_.GetNbLignes(); i++)
    {
       for (int y = 0; y < m_.GetNbColonnes(); y++)
-
       {
 		  if (m_[i][y]==Vide)
 			  valide |= EstPositionJouable(jetonQuiJoue, i, y);
       }
    }
-
 		return valide;
 
 }
@@ -240,6 +241,7 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 }
 void Othello::FlipLigne(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y)
 {
+	// appelle la fonction verif qui valid si la direction est valid si oui flip les jetons jusquau jeton de sa couleur
    Othello::PosValid data;
    if ((data = Verif(jeton, ligne, colonne, X, Y)).Validiter)
    {
@@ -257,7 +259,7 @@ void Othello::FlipLigne(Othello::Jetons jeton, int ligne, int colonne, Orientati
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::CalculDuNbDeJeton()
 {
-
+	//calcul le nombre de jetons de chaque couleur sur le board
 	nbJetonsBlanc_ = 0;
 	nbJetonsNoir_ = 0;
 
