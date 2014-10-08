@@ -191,7 +191,6 @@ Othello::Jetons Othello::DeterminerGagnant() const
 	return (nbJetonsBlanc_ > nbJetonsNoir_) ? Othello::Blanc : (nbJetonsNoir_ > nbJetonsBlanc_) ? Othello::Noir:Othello::Vide;
 }
 
-
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 {
@@ -209,7 +208,7 @@ bool Othello::PeutJouerSonCoup(Othello::Jetons jetonQuiJoue) const
 		return valide;
 
 }
-
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 {
    //Vérifie le jeton a droite
@@ -239,14 +238,16 @@ void Othello::InverserJetons(Othello::Jetons jeton, int ligne, int colonne)
 	CalculDuNbDeJeton();
 
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void Othello::FlipLigne(Othello::Jetons jeton, int ligne, int colonne, Orientation X, Orientation Y)
 {
+
 	// appelle la fonction verif qui valid si la direction est valid si oui flip les jetons jusquau jeton de sa couleur
    Othello::PosValid data;
-   if ((data = Verif(jeton, ligne, colonne, X, Y)).Validiter)
-   {
-      for (int r = 0; (Y<Zero) ? (ligne + (r*Y) > data.Pos.Y) :
-                                 (Y>Zero) ? (ligne + (r*Y) < data.Pos.Y) :
+   if ((data = Verif(jeton, ligne, colonne, X, Y)).Validiter)	   
+   {    
+      for (int r = 0; (Y<Zero) ? (ligne + (r*Y) > data.Pos.Y) :				//verifie si on flip negativement ou positivement pour pouvoir avoir le bon y et le bon x 
+                                 (Y>Zero) ? (ligne + (r*Y) < data.Pos.Y) :  //pour  choisir la bonne condition d'arret en fonction de la direction;
                                              true 
                     &&(X<Zero) ? (colonne + (r*X) > data.Pos.X) :
                                  (X>Zero) ? (colonne + (r*X) < data.Pos.X) :
@@ -286,3 +287,4 @@ ostream& operator << (ostream & out, const Othello & jeu)
 	jeu.Afficher(out);
 	return out;
 }
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
